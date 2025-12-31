@@ -1,0 +1,1 @@
+curl --header "Content-Type: application/json" --request POST --data @scripts\\inference\\dpv1\\tv1\\v1\\sample_body.json http://127.0.0.1:10000

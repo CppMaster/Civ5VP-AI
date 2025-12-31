@@ -1,7 +1,6 @@
 import torch
 import joblib
 from fastapi import FastAPI
-import uvicorn
 
 from scripts.training.dpv1.v1.train_full_pipeline import WinPredictionNet, PreprocessingPipeline
 from scripts.inference.dpv1.tv1.v1.models import InputModel, OutputModel
@@ -17,12 +16,8 @@ model.load_state_dict(model_data["model_state_dict"])
 model.eval()
 
 
-@app.post("/")
+@app.post("/infer")
 async def infer_model(input_model: InputModel) -> OutputModel:
 
     output = infer(input_model, pipeline, model)
     return output
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=10000)

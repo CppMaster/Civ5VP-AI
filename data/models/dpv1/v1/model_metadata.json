@@ -1,0 +1,187 @@
+{
+  "feature_columns": [
+    "score",
+    "cities",
+    "population",
+    "territory",
+    "gold",
+    "gold_per_turn",
+    "happiness_percentage",
+    "science_per_turn",
+    "culture_per_turn",
+    "faith_per_turn",
+    "tourism_per_turn",
+    "technologies",
+    "civilization_America",
+    "civilization_Arabia",
+    "civilization_Assyria",
+    "civilization_Austria",
+    "civilization_Babylon",
+    "civilization_Brazil",
+    "civilization_Byzantium",
+    "civilization_Carthage",
+    "civilization_China",
+    "civilization_Denmark",
+    "civilization_Egypt",
+    "civilization_England",
+    "civilization_Ethiopia",
+    "civilization_France",
+    "civilization_Germany",
+    "civilization_Greece",
+    "civilization_India",
+    "civilization_Indonesia",
+    "civilization_Japan",
+    "civilization_Korea",
+    "civilization_Mongolia",
+    "civilization_Morocco",
+    "civilization_Persia",
+    "civilization_Poland",
+    "civilization_Polynesia",
+    "civilization_Portugal",
+    "civilization_Rome",
+    "civilization_Russia",
+    "civilization_Siam",
+    "civilization_Songhai",
+    "civilization_Spain",
+    "civilization_Sweden",
+    "civilization_The Aztecs",
+    "civilization_The Celts",
+    "civilization_The Huns",
+    "civilization_The Inca",
+    "civilization_The Iroquois",
+    "civilization_The Maya",
+    "civilization_The Netherlands",
+    "civilization_The Ottomans",
+    "civilization_The Shoshone",
+    "civilization_The Zulus",
+    "civilization_Venice",
+    "chosen_ancient_policy_Authority",
+    "chosen_ancient_policy_Progress",
+    "chosen_ancient_policy_Tradition"
+  ],
+  "normalization_params": {
+    "Unnamed: 0": {
+      "min": 0.0,
+      "max": 9379.0
+    },
+    "player_id": {
+      "min": 1.0,
+      "max": 4.0
+    },
+    "score": {
+      "min": 47.0,
+      "max": 315.0
+    },
+    "cities": {
+      "min": 1.0,
+      "max": 3.0
+    },
+    "population": {
+      "min": 2.0,
+      "max": 17.0
+    },
+    "territory": {
+      "min": 8.0,
+      "max": 40.0
+    },
+    "gold": {
+      "min": 0.0,
+      "max": 339.0
+    },
+    "gold_per_turn": {
+      "min": -1.0,
+      "max": 16.0
+    },
+    "happiness_percentage": {
+      "min": 59.0,
+      "max": 100.0
+    },
+    "science_per_turn": {
+      "min": 6.0,
+      "max": 20.0
+    },
+    "culture_per_turn": {
+      "min": 1.0,
+      "max": 12.0
+    },
+    "faith_per_turn": {
+      "min": 0.0,
+      "max": 14.0
+    },
+    "technologies": {
+      "min": 2.0,
+      "max": 11.0
+    }
+  },
+  "categorical_mappings": {
+    "civilization": [
+      "America",
+      "Arabia",
+      "Assyria",
+      "Austria",
+      "Babylon",
+      "Brazil",
+      "Byzantium",
+      "Carthage",
+      "China",
+      "Denmark",
+      "Egypt",
+      "England",
+      "Ethiopia",
+      "France",
+      "Germany",
+      "Greece",
+      "India",
+      "Indonesia",
+      "Japan",
+      "Korea",
+      "Mongolia",
+      "Morocco",
+      "Persia",
+      "Poland",
+      "Polynesia",
+      "Portugal",
+      "Rome",
+      "Russia",
+      "Siam",
+      "Songhai",
+      "Spain",
+      "Sweden",
+      "The Aztecs",
+      "The Celts",
+      "The Huns",
+      "The Inca",
+      "The Iroquois",
+      "The Maya",
+      "The Netherlands",
+      "The Ottomans",
+      "The Shoshone",
+      "The Zulus",
+      "Venice"
+    ],
+    "chosen_ancient_policy": [
+      "Authority",
+      "Progress",
+      "Tradition"
+    ]
+  },
+  "columns_to_remove": [
+    "game_id",
+    "player_id",
+    "victory_type",
+    "Unnamed: 0"
+  ],
+  "categorical_cols": [
+    "civilization",
+    "chosen_ancient_policy"
+  ],
+  "model_config": {
+    "input_size": 58,
+    "hidden_sizes": [
+      128,
+      64,
+      32
+    ],
+    "dropout": 0.3
+  }
+}
