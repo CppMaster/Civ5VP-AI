@@ -23,6 +23,7 @@ import joblib  # type: ignore
 
 CSV_PATH = Path("data/processed/v1/game_data.csv")
 MODEL_DIR = Path("data/models/dpv1/v1")
+ACTION_SPACE = ["Tradition", "Progress", "Authority"]
 
 
 class WinPredictionDataset(Dataset):
@@ -449,6 +450,47 @@ def save_pipeline(
     print(f"Model metadata saved to: {metadata_path}")
 
 
+def infer_model_on_dataset(pipeline, model):
+    df = pd.read_csv(CSV_PATH)
+    alt_rows = []
+    for _, row in df.iterrows():
+        for action in ACTION_SPACE:
+            alt_row = copy.deepcopy(row)
+            alt_row["chosen_ancient_policy"] = action
+            alt_rows.append(alt_row)
+ 
+    alt_df = pd.DataFrame(alt_rows)
+
+    infer_df = pipeline.transform(alt_df)
+    x, y = split_features_target(infer_df)
+
+    model.eval()
+    valid_dataset = WinPredictionDataset(x, y)
+    valid_loader = DataLoader(valid_dataset, batch_size=64, shuffle=False)
+    
+    all_predictions = []
+    all_probabilities = []
+    all_targets = []
+    
+    with torch.no_grad():
+        for features, targets in valid_loader:
+            outputs = model(features)
+            
+            probabilities = outputs.cpu().numpy()
+            predictions = (probabilities > 0.25).astype(int)
+            
+            all_probabilities.extend(probabilities)
+            all_predictions.extend(predictions)
+            all_targets.extend(targets.numpy())
+
+    for index, row in df.iterrows():
+        probabilities = all_probabilities[index * len(ACTION_SPACE): (index + 1) * len(ACTION_SPACE)]
+        top_probability_index = np.argmax(probabilities)
+        df.loc[index, "predicted_ancient_policy"] = ACTION_SPACE[top_probability_index]
+
+    df.to_csv("data\\processed\\v1\\game_data_predicted.csv")
+
+
 def main() -> None:
     """Main entry point."""
     try:
@@ -514,6 +556,10 @@ def main() -> None:
         print("  - win_prediction_model.pt (model weights and config)")
         print("  - preprocessing_pipeline.joblib (preprocessing pipeline)")
         print("  - model_metadata.json (metadata for inspection)")
+
+        # Infer model
+        infer_model_on_dataset(pipeline, model)
+        
 
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)

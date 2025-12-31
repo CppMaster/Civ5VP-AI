@@ -12,18 +12,19 @@ from pathlib import Path
 
 
 def main() -> None:
-    csv_path = Path("data/processed/game_data.csv")
+    csv_path = Path("data/processed/v1/game_data_predicted.csv")
     df = pd.read_csv(csv_path)
 
     # Count occurrences per (civilization, policy)
     civs = sorted(df["civilization"].unique())
-    policies = sorted(df["chosen_ancient_policy"].unique())
+    key = "predicted_ancient_policy"
+    policies = sorted(df[key].unique())
 
     count_matrix = (
-        df.groupby(["chosen_ancient_policy", "civilization"])
+        df.groupby([key, "civilization"])
         .size()
         .reindex(
-            pd.MultiIndex.from_product([policies, civs], names=["chosen_ancient_policy", "civilization"])
+            pd.MultiIndex.from_product([policies, civs], names=[key, "civilization"])
         )
         .fillna(0)
         .unstack(fill_value=0)
@@ -51,7 +52,7 @@ def main() -> None:
     plt.colorbar(im, label="Count")
     plt.tight_layout()
 
-    output_path = Path("tmp/heatmap_civ_policy_count.png")
+    output_path = Path("tmp/heatmap_civ_policy_count_predicted.png")
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     print(f"Saved heatmap to {output_path}")
 
