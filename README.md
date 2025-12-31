@@ -19,6 +19,10 @@ curl --header "Content-Type: application/json" --request POST --data @scripts\\i
 ```
 
 ## Input request
+
+### Pydantic model
+
+
 ``` python
 class InputModel(BaseModel):
     """
@@ -83,6 +87,25 @@ class InputModel(BaseModel):
     technologies: int
 ```
 
+### Example JSON
+``` json
+{
+    "civilization": "The Huns",
+    "score": 95,
+    "cities": 1,
+    "population": 5,
+    "territory": 14,
+    "gold": 56,
+    "gold_per_turn": 7.0,
+    "happiness_percentage": 100,
+    "science_per_turn": 7,
+    "culture_per_turn": 5,
+    "faith_per_turn": 3,
+    "tourism_per_turn": 0,
+    "technologies": 3
+}
+```
+
 ## Output response
 ``` python
 class OutputModel(BaseModel):
@@ -93,4 +116,13 @@ class OutputModel(BaseModel):
     progress_score: float
     authority_score: float
     predicted_ancient_policy: Literal["Tradition", "Progress", "Authority"]
+```
+
+### Example JSON
+``` json
+{
+    "tradition_score": 0.33270448446273804,
+    "progress_score": 0.2941686809062958,
+    "authority_score": 0.4835255742073059,"predicted_ancient_policy": "Authority"
+}
 ```
